@@ -3,284 +3,2270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05080d">
 
-    <title>MarSoft | AI Memory Search</title>
+    <title>MarSoft | Privacy-First Intelligent Software</title>
 
     <meta name="description"
-          content="Official MarSoft website. AI Memory Search is a private Android application for intelligent local search across documents, images, emails and email attachments.">
+          content="MarSoft develops privacy-first Android software powered by local artificial intelligence. Discover AI Memory Search and intelligent software designed around your data.">
 
     <style>
+        :root {
+            --bg: #05080d;
+            --bg-soft: #080d14;
+            --panel: rgba(12, 19, 29, 0.72);
+            --panel-solid: #0b121c;
+            --line: rgba(148, 181, 210, 0.13);
+            --line-bright: rgba(102, 218, 255, 0.32);
+            --text: #f5f8fb;
+            --muted: #8998aa;
+            --muted-light: #b8c4d1;
+            --cyan: #65d9ff;
+            --cyan-bright: #a7ecff;
+            --violet: #8f7cff;
+            --green: #68e0b4;
+            --max: 1240px;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #08111f;
-            color: #f4f7fb;
-            line-height: 1.6;
+        html {
+            scroll-behavior: smooth;
         }
 
+        body {
+            font-family:
+                    Inter,
+                    ui-sans-serif,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    sans-serif;
+
+            background:
+                    radial-gradient(
+                            circle at 50% -20%,
+                            rgba(38, 102, 145, 0.15),
+                            transparent 38%
+                    ),
+                    var(--bg);
+
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -3;
+
+            background-image:
+                    linear-gradient(
+                            rgba(255,255,255,0.022) 1px,
+                            transparent 1px
+                    ),
+                    linear-gradient(
+                            90deg,
+                            rgba(255,255,255,0.022) 1px,
+                            transparent 1px
+                    );
+
+            background-size: 64px 64px;
+
+            mask-image:
+                    linear-gradient(
+                            to bottom,
+                            rgba(0,0,0,0.8),
+                            transparent 85%
+                    );
+        }
+
+        ::selection {
+            background: rgba(101,217,255,0.25);
+            color: white;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* =========================================================
+           CURSOR GLOW
+        ========================================================= */
+
+        .cursor-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -2;
+
+            background:
+                    radial-gradient(
+                            circle,
+                            rgba(64, 188, 255, 0.07),
+                            transparent 67%
+                    );
+
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 30%;
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
         header {
-            border-bottom: 1px solid #26364d;
-            background: #0d1728;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+
+            border-bottom: 1px solid transparent;
+
+            transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    backdrop-filter 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(5, 8, 13, 0.78);
+            border-color: var(--line);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
 
         .nav {
-            max-width: 1100px;
+            max-width: var(--max);
+            height: 82px;
+            padding: 0 28px;
             margin: auto;
-            padding: 22px 24px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .brand {
-            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 31px;
+            height: 31px;
+            position: relative;
+
+            border: 1px solid rgba(101,217,255,0.45);
+            border-radius: 8px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(101,217,255,0.16),
+                            rgba(143,124,255,0.04)
+                    );
+
+            box-shadow:
+                    inset 0 0 18px rgba(101,217,255,0.06),
+                    0 0 25px rgba(101,217,255,0.06);
+        }
+
+        .brand-mark::before,
+        .brand-mark::after {
+            content: "";
+            position: absolute;
+            background: var(--cyan);
+            box-shadow: 0 0 8px rgba(101,217,255,0.6);
+        }
+
+        .brand-mark::before {
+            width: 13px;
+            height: 1px;
+            left: 8px;
+            top: 10px;
+        }
+
+        .brand-mark::after {
+            width: 1px;
+            height: 10px;
+            left: 14px;
+            top: 10px;
         }
 
         .brand span {
-            color: #65c7ff;
+            color: var(--cyan);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 34px;
         }
 
         nav a {
-            color: #d9e3f0;
+            color: #a9b6c5;
+            font-size: 13px;
+            letter-spacing: 0.04em;
             text-decoration: none;
-            margin-left: 28px;
-            font-size: 15px;
+            transition: color 0.2s ease;
         }
 
         nav a:hover {
-            color: #65c7ff;
+            color: white;
         }
+
+        .nav-contact {
+            padding: 9px 16px;
+            border: 1px solid rgba(101,217,255,0.25);
+            border-radius: 8px;
+        }
+
+        .nav-contact:hover {
+            border-color: rgba(101,217,255,0.6);
+            color: var(--cyan);
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
 
         .hero {
-            max-width: 1100px;
+            position: relative;
+
+            max-width: var(--max);
+            min-height: 100vh;
+
             margin: auto;
-            padding: 100px 24px 80px;
+            padding: 150px 28px 90px;
+
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 60px;
         }
 
-        .label {
-            display: inline-block;
-            padding: 6px 12px;
-            border: 1px solid #355271;
-            border-radius: 20px;
-            color: #65c7ff;
-            font-size: 13px;
-            margin-bottom: 22px;
+        .hero-copy {
+            position: relative;
+            z-index: 5;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+
+            margin-bottom: 28px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--cyan);
+            box-shadow: 0 0 10px rgba(101,217,255,0.7);
         }
 
         h1 {
-            font-size: clamp(42px, 7vw, 72px);
-            line-height: 1.05;
-            max-width: 850px;
-            margin-bottom: 28px;
+            font-size: clamp(54px, 6vw, 92px);
+            line-height: 0.98;
+            letter-spacing: -0.055em;
+            font-weight: 650;
+
+            max-width: 720px;
         }
 
-        .hero p {
-            max-width: 760px;
-            color: #aebed1;
-            font-size: 19px;
+        .hero-gradient {
+            background:
+                    linear-gradient(
+                            110deg,
+                            #ffffff 10%,
+                            #9fe8ff 55%,
+                            #8f7cff 105%
+                    );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        .content {
-            max-width: 1100px;
+        .hero-description {
+            max-width: 630px;
+            margin-top: 30px;
+
+            color: var(--muted-light);
+            font-size: 18px;
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 38px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            min-height: 48px;
+            padding: 0 21px;
+
+            border-radius: 9px;
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+
+            transition:
+                    transform 0.2s ease,
+                    border-color 0.2s ease,
+                    background 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            color: #031017;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #a6ecff,
+                            #65d9ff
+                    );
+
+            box-shadow:
+                    0 10px 40px rgba(101,217,255,0.14);
+        }
+
+        .button-secondary {
+            color: #d4dde7;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,0.025);
+        }
+
+        .button-secondary:hover {
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+
+            margin-top: 55px;
+
+            color: #647487;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px rgba(104,224,180,0.8);
+        }
+
+        /* =========================================================
+           AI VISUAL
+        ========================================================= */
+
+        .ai-visual {
+            position: relative;
+            height: 610px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-grid {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background-image:
+                    linear-gradient(
+                            rgba(101,217,255,0.055) 1px,
+                            transparent 1px
+                    ),
+                    linear-gradient(
+                            90deg,
+                            rgba(101,217,255,0.055) 1px,
+                            transparent 1px
+                    );
+
+            background-size: 28px 28px;
+
+            mask-image:
+                    radial-gradient(
+                            circle,
+                            black 20%,
+                            transparent 68%
+                    );
+        }
+
+        .orbit {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(101,217,255,0.10);
+        }
+
+        .orbit.one {
+            width: 430px;
+            height: 430px;
+            animation: rotate 28s linear infinite;
+        }
+
+        .orbit.two {
+            width: 330px;
+            height: 330px;
+            border-style: dashed;
+            animation: rotateReverse 23s linear infinite;
+        }
+
+        .orbit.three {
+            width: 230px;
+            height: 230px;
+            border-color: rgba(143,124,255,0.14);
+            animation: rotate 18s linear infinite;
+        }
+
+        .orbit.one::after,
+        .orbit.two::after,
+        .orbit.three::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow:
+                    0 0 12px var(--cyan),
+                    0 0 28px rgba(101,217,255,0.5);
+        }
+
+        .orbit.one::after {
+            top: 51px;
+            right: 48px;
+        }
+
+        .orbit.two::after {
+            bottom: 30px;
+            left: 85px;
+        }
+
+        .orbit.three::after {
+            top: 5px;
+            left: 88px;
+            background: var(--violet);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotateReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        .core-glow {
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+
+            background:
+                    radial-gradient(
+                            circle,
+                            rgba(101,217,255,0.14),
+                            rgba(78,98,255,0.045) 42%,
+                            transparent 70%
+                    );
+
+            filter: blur(10px);
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(0.92);
+                opacity: 0.65;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .core {
+            position: relative;
+            z-index: 4;
+
+            width: 148px;
+            height: 148px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(101,217,255,0.33);
+            border-radius: 26px;
+
+            background:
+                    linear-gradient(
+                            145deg,
+                            rgba(17,30,46,0.92),
+                            rgba(6,12,20,0.96)
+                    );
+
+            box-shadow:
+                    inset 0 0 35px rgba(101,217,255,0.055),
+                    0 0 70px rgba(101,217,255,0.08);
+
+            transform: rotate(45deg);
+        }
+
+        .core-inner {
+            transform: rotate(-45deg);
+            text-align: center;
+        }
+
+        .core-symbol {
+            width: 34px;
+            height: 34px;
+
+            margin: 0 auto 10px;
+
+            position: relative;
+
+            border: 1px solid rgba(101,217,255,0.7);
+            border-radius: 50%;
+
+            box-shadow:
+                    0 0 20px rgba(101,217,255,0.18);
+        }
+
+        .core-symbol::before,
+        .core-symbol::after {
+            content: "";
+            position: absolute;
+            background: var(--cyan);
+        }
+
+        .core-symbol::before {
+            width: 14px;
+            height: 1px;
+            left: 9px;
+            top: 16px;
+        }
+
+        .core-symbol::after {
+            width: 1px;
+            height: 14px;
+            left: 16px;
+            top: 9px;
+        }
+
+        .core-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+        }
+
+        .core-subtitle {
+            margin-top: 4px;
+            color: var(--cyan);
+            font-size: 8px;
+            letter-spacing: 0.18em;
+        }
+
+        .node {
+            position: absolute;
+            z-index: 5;
+
+            min-width: 120px;
+            padding: 13px 15px;
+
+            border: 1px solid var(--line);
+            border-radius: 9px;
+
+            background: rgba(7, 13, 21, 0.88);
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                    0 12px 35px rgba(0,0,0,0.25);
+
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .node::before {
+            content: "";
+            display: inline-block;
+
+            width: 5px;
+            height: 5px;
+
+            margin-right: 8px;
+            border-radius: 50%;
+
+            background: var(--cyan);
+            box-shadow: 0 0 9px rgba(101,217,255,0.8);
+        }
+
+        .node strong {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+        }
+
+        .node small {
+            display: block;
+            margin: 4px 0 0 15px;
+
+            color: #66778a;
+            font-size: 8px;
+            letter-spacing: 0.08em;
+        }
+
+        .node.documents {
+            left: 15px;
+            top: 125px;
+        }
+
+        .node.images {
+            right: 0;
+            top: 160px;
+            animation-delay: -1s;
+        }
+
+        .node.email {
+            left: 30px;
+            bottom: 130px;
+            animation-delay: -2s;
+        }
+
+        .node.index {
+            right: 20px;
+            bottom: 105px;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-9px);
+            }
+        }
+
+        /* =========================================================
+           GENERAL SECTIONS
+        ========================================================= */
+
+        .section {
+            max-width: var(--max);
             margin: auto;
-            padding: 20px 24px 90px;
+            padding: 125px 28px;
         }
 
-        .card {
-            background: #111e32;
-            border: 1px solid #293b55;
-            border-radius: 18px;
-            padding: 38px;
-            margin-bottom: 28px;
+        .section-divider {
+            max-width: calc(var(--max) - 56px);
+            height: 1px;
+            margin: auto;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            transparent,
+                            var(--line),
+                            transparent
+                    );
         }
 
-        h2 {
-            font-size: 30px;
+        .section-number {
+            color: var(--cyan);
+            font-size: 10px;
+            letter-spacing: 0.18em;
             margin-bottom: 18px;
         }
 
-        .card p {
-            color: #b7c4d4;
-            margin-bottom: 16px;
-            max-width: 850px;
-        }
+        .section-heading {
+            max-width: 780px;
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-top: 28px;
-        }
-
-        .feature {
-            background: #0c1728;
-            border: 1px solid #273a54;
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .feature strong {
-            display: block;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-
-        .feature span {
-            color: #9fb0c5;
-            font-size: 14px;
-        }
-
-        .privacy-link {
-            display: inline-block;
-            margin-top: 12px;
-            color: #65c7ff;
-            text-decoration: none;
+            font-size: clamp(38px, 5vw, 65px);
+            line-height: 1.08;
+            letter-spacing: -0.045em;
             font-weight: 600;
         }
 
-        .privacy-link:hover {
+        .section-intro {
+            max-width: 690px;
+            margin-top: 24px;
+
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        /* =========================================================
+           TECHNOLOGY
+        ========================================================= */
+
+        .technology-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            margin-top: 65px;
+
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .tech-item {
+            min-height: 230px;
+            padding: 30px;
+
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+
+            position: relative;
+            overflow: hidden;
+
+            transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: rgba(101,217,255,0.025);
+            border-color: rgba(101,217,255,0.22);
+        }
+
+        .tech-index {
+            color: #536174;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+        }
+
+        .tech-item h3 {
+            margin-top: 55px;
+            margin-bottom: 10px;
+
+            font-size: 17px;
+            font-weight: 550;
+        }
+
+        .tech-item p {
+            color: #748497;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .tech-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 0;
+            height: 1px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            transparent,
+                            var(--cyan)
+                    );
+
+            transition: width 0.5s ease;
+        }
+
+        .tech-item:hover .tech-line {
+            width: 100%;
+        }
+
+        /* =========================================================
+           PRODUCT
+        ========================================================= */
+
+        .product-panel {
+            margin-top: 65px;
+
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(16,25,38,0.7),
+                            rgba(6,11,18,0.6)
+                    );
+        }
+
+        .product-copy {
+            padding: 65px;
+        }
+
+        .product-label {
+            color: var(--cyan);
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .product-copy h3 {
+            margin-top: 18px;
+
+            font-size: clamp(38px, 4vw, 58px);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .product-copy > p {
+            margin-top: 24px;
+
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+
+            margin-top: 32px;
+        }
+
+        .product-tag {
+            padding: 7px 10px;
+
+            border: 1px solid var(--line);
+            border-radius: 6px;
+
+            color: #91a1b4;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .product-visual {
+            position: relative;
+            min-height: 570px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-left: 1px solid var(--line);
+
+            background:
+                    radial-gradient(
+                            circle at center,
+                            rgba(101,217,255,0.07),
+                            transparent 50%
+                    );
+        }
+
+        .phone {
+            width: 245px;
+            height: 490px;
+
+            padding: 8px;
+
+            border: 1px solid rgba(184,220,240,0.22);
+            border-radius: 38px;
+
+            background: #05080c;
+
+            box-shadow:
+                    0 30px 90px rgba(0,0,0,0.55),
+                    0 0 60px rgba(101,217,255,0.06);
+
+            transform:
+                    perspective(1000px)
+                    rotateY(-7deg)
+                    rotateX(2deg);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+
+            padding: 28px 18px;
+
+            border-radius: 30px;
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            180deg,
+                            #0d1722,
+                            #080d14
+                    );
+        }
+
+        .phone-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: #8494a6;
+            font-size: 8px;
+        }
+
+        .phone-app {
+            margin-top: 35px;
+        }
+
+        .phone-app-name {
+            color: #f1f6fa;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .phone-app-sub {
+            color: #65768a;
+            font-size: 9px;
+        }
+
+        .search-box {
+            height: 42px;
+            margin-top: 25px;
+            padding: 0 13px;
+
+            display: flex;
+            align-items: center;
+
+            border: 1px solid rgba(101,217,255,0.18);
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.025);
+
+            color: #748699;
+            font-size: 9px;
+        }
+
+        .search-icon {
+            width: 12px;
+            height: 12px;
+
+            margin-right: 10px;
+
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+
+            position: relative;
+        }
+
+        .search-icon::after {
+            content: "";
+            position: absolute;
+
+            width: 5px;
+            height: 1px;
+
+            right: -4px;
+            bottom: -2px;
+
+            background: var(--cyan);
+            transform: rotate(45deg);
+        }
+
+        .phone-status {
+            margin-top: 18px;
+
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: var(--green);
+            font-size: 8px;
+            letter-spacing: 0.06em;
+        }
+
+        .result-card {
+            margin-top: 12px;
+            padding: 13px;
+
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.022);
+        }
+
+        .result-type {
+            color: var(--cyan);
+            font-size: 7px;
+            letter-spacing: 0.12em;
+        }
+
+        .result-title {
+            margin-top: 5px;
+            color: #c8d3de;
+            font-size: 9px;
+        }
+
+        .result-line {
+            height: 3px;
+            margin-top: 8px;
+            border-radius: 2px;
+            background: #1d2a38;
+        }
+
+        .result-line.short {
+            width: 62%;
+        }
+
+        .floating-badge {
+            position: absolute;
+
+            padding: 10px 13px;
+
+            border: 1px solid var(--line-bright);
+            border-radius: 8px;
+
+            background: rgba(6,12,19,0.9);
+
+            color: #9cb0c3;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .badge-one {
+            top: 105px;
+            left: 9%;
+        }
+
+        .badge-two {
+            right: 8%;
+            top: 215px;
+        }
+
+        .badge-three {
+            left: 11%;
+            bottom: 105px;
+        }
+
+        /* =========================================================
+           PRIVACY ARCHITECTURE
+        ========================================================= */
+
+        .architecture {
+            margin-top: 65px;
+
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr 80px 1fr;
+            align-items: center;
+        }
+
+        .architecture-box {
+            min-height: 180px;
+            padding: 30px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            border: 1px solid var(--line);
+            border-radius: 14px;
+
+            background: rgba(255,255,255,0.015);
+        }
+
+        .architecture-box small {
+            color: var(--cyan);
+            font-size: 9px;
+            letter-spacing: 0.14em;
+        }
+
+        .architecture-box strong {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 550;
+        }
+
+        .architecture-box p {
+            margin-top: 8px;
+
+            color: #738396;
+            font-size: 12px;
+        }
+
+        .architecture-arrow {
+            height: 1px;
+            position: relative;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            var(--line),
+                            var(--cyan),
+                            var(--line)
+                    );
+        }
+
+        .architecture-arrow::after {
+            content: "";
+            position: absolute;
+
+            right: 0;
+            top: -3px;
+
+            width: 6px;
+            height: 6px;
+
+            border-top: 1px solid var(--cyan);
+            border-right: 1px solid var(--cyan);
+
+            transform: rotate(45deg);
+        }
+
+        /* =========================================================
+           COMPANY
+        ========================================================= */
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 90px;
+            align-items: start;
+        }
+
+        .company-copy p {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.85;
+            margin-bottom: 18px;
+        }
+
+        .principles {
+            border-top: 1px solid var(--line);
+        }
+
+        .principle {
+            padding: 23px 0;
+
+            display: grid;
+            grid-template-columns: 55px 1fr;
+
+            border-bottom: 1px solid var(--line);
+        }
+
+        .principle-number {
+            color: #536274;
+            font-size: 10px;
+        }
+
+        .principle strong {
+            display: block;
+            margin-bottom: 4px;
+
+            font-size: 14px;
+            font-weight: 550;
+        }
+
+        .principle span {
+            color: #718195;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           CONTACT
+        ========================================================= */
+
+        .contact-panel {
+            position: relative;
+            overflow: hidden;
+
+            padding: 80px;
+
+            border: 1px solid var(--line);
+            border-radius: 24px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(101,217,255,0.035),
+                            rgba(143,124,255,0.025)
+                    );
+        }
+
+        .contact-panel::after {
+            content: "";
+
+            position: absolute;
+            width: 400px;
+            height: 400px;
+
+            right: -160px;
+            top: -180px;
+
+            border-radius: 50%;
+
+            background:
+                    radial-gradient(
+                            circle,
+                            rgba(101,217,255,0.09),
+                            transparent 68%
+                    );
+        }
+
+        .contact-panel h2 {
+            max-width: 720px;
+
+            font-size: clamp(38px, 5vw, 64px);
+            line-height: 1.08;
+            letter-spacing: -0.045em;
+            font-weight: 600;
+        }
+
+        .contact-panel p {
+            max-width: 590px;
+            margin-top: 20px;
+
+            color: var(--muted);
+        }
+
+        .contact-email {
+            display: inline-block;
+            margin-top: 30px;
+
+            color: var(--cyan);
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .contact-email:hover {
             text-decoration: underline;
         }
 
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
         footer {
-            border-top: 1px solid #26364d;
-            color: #8395aa;
-            padding: 32px 24px;
-            text-align: center;
-            font-size: 14px;
+            max-width: var(--max);
+            margin: auto;
+            padding: 45px 28px 55px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: #59697c;
+            font-size: 11px;
+
+            border-top: 1px solid var(--line);
         }
 
-        @media (max-width: 650px) {
-            nav {
+        .footer-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-links a {
+            color: #708095;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        /* =========================================================
+           REVEAL ANIMATIONS
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+
+            transition:
+                    opacity 0.8s ease,
+                    transform 0.8s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1050px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 150px;
+            }
+
+            .hero-copy {
+                max-width: 800px;
+            }
+
+            .ai-visual {
+                height: 570px;
+            }
+
+            .technology-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .product-visual {
+                border-left: none;
+                border-top: 1px solid var(--line);
+            }
+
+            .architecture {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .architecture-arrow {
+                width: 1px;
+                height: 35px;
+                margin: auto;
+
+                background:
+                        linear-gradient(
+                                to bottom,
+                                var(--line),
+                                var(--cyan),
+                                var(--line)
+                        );
+            }
+
+            .architecture-arrow::after {
+                right: -3px;
+                top: auto;
+                bottom: 0;
+
+                transform: rotate(135deg);
+            }
+        }
+
+        @media (max-width: 760px) {
+
+            .nav {
+                height: 70px;
+                padding: 0 20px;
+            }
+
+            nav a:not(.nav-contact) {
                 display: none;
             }
 
-            .hero {
-                padding-top: 70px;
+            nav {
+                gap: 0;
             }
 
-            .card {
-                padding: 26px;
+            .hero {
+                min-height: auto;
+                padding: 125px 20px 65px;
+            }
+
+            h1 {
+                font-size: clamp(48px, 14vw, 68px);
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .hero-meta {
+                gap: 12px 20px;
+            }
+
+            .ai-visual {
+                height: 470px;
+                transform: scale(0.82);
+                margin: -30px -50px;
+            }
+
+            .section {
+                padding: 85px 20px;
+            }
+
+            .technology-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-item {
+                min-height: 190px;
+            }
+
+            .tech-item h3 {
+                margin-top: 35px;
+            }
+
+            .product-copy {
+                padding: 38px 25px;
+            }
+
+            .product-visual {
+                min-height: 520px;
+            }
+
+            .phone {
+                transform: scale(0.9);
+            }
+
+            .floating-badge {
+                display: none;
+            }
+
+            .company-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .contact-panel {
+                padding: 45px 25px;
+            }
+
+            footer {
+                padding: 35px 20px;
+
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
     </style>
 </head>
 
 <body>
 
-<header>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<header id="header">
+
     <div class="nav">
-        <div class="brand">Mar<span>Soft</span></div>
+
+        <a href="#" class="brand">
+
+            <div class="brand-mark"></div>
+
+            Mar<span>Soft</span>
+
+        </a>
 
         <nav>
-            <a href="#ai-memory-search">AI Memory Search</a>
-            <a href="privacy-policy/">Privacy Policy</a>
-            <a href="#contact">Contact</a>
+            <a href="#technology">Technology</a>
+            <a href="#products">Products</a>
+            <a href="#company">Company</a>
+            <a href="privacy-policy/">Privacy</a>
+            <a href="#contact" class="nav-contact">Contact</a>
         </nav>
+
     </div>
+
 </header>
+
 
 <main>
 
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
     <section class="hero">
-        <div class="label">MarSoft Android Applications</div>
 
-        <h1>Private AI search for your own information.</h1>
+        <div class="hero-copy">
 
-        <p>
-            MarSoft develops Android applications focused on useful,
-            privacy-conscious technology and local artificial intelligence.
-        </p>
-    </section>
+            <div class="eyebrow">
+                Privacy-first intelligent software
+            </div>
 
-    <section class="content">
+            <h1>
+                Intelligence belongs
+                <span class="hero-gradient">on your device.</span>
+            </h1>
 
-        <div class="card" id="ai-memory-search">
-
-            <h2>AI Memory Search</h2>
-
-            <p>
-                AI Memory Search is a private intelligent search application
-                for Android that allows users to search across documents,
-                images, email messages and supported email attachments from
-                a single interface.
+            <p class="hero-description">
+                MarSoft builds Android software that combines useful
+                artificial intelligence with privacy-first architecture.
+                Your information remains yours.
             </p>
 
-            <p>
-                AI-powered indexing and semantic search are performed locally
-                on the user's device. When email search is enabled,
-                AI Memory Search accesses authorized email services only to
-                synchronize the content required for the user's local search
-                index.
-            </p>
+            <div class="hero-actions">
 
-            <p>
-                AI Memory Search does not use email content for advertising
-                and does not upload the user's private search index to
-                developer-operated servers.
-            </p>
+                <a href="#products"
+                   class="button button-primary">
+                    Explore our technology
+                    <span>→</span>
+                </a>
 
-            <div class="features">
+                <a href="#company"
+                   class="button button-secondary">
+                    About MarSoft
+                </a>
 
-                <div class="feature">
-                    <strong>Documents</strong>
-                    <span>
-                        Search supported documents using local indexing
-                        and semantic search.
-                    </span>
-                </div>
+            </div>
 
-                <div class="feature">
-                    <strong>Images</strong>
-                    <span>
-                        Find locally indexed images using AI-assisted
-                        semantic matching.
-                    </span>
-                </div>
+            <div class="hero-meta">
 
-                <div class="feature">
-                    <strong>Email</strong>
-                    <span>
-                        Search authorized email messages and supported
-                        attachments from the local index.
-                    </span>
-                </div>
+                <span>
+                    <i class="status-dot"></i>
+                    Android
+                </span>
 
-                <div class="feature">
-                    <strong>Local AI</strong>
-                    <span>
-                        AI models and the private search index operate
-                        locally on the user's device where supported.
-                    </span>
+                <span>
+                    Local AI
+                </span>
+
+                <span>
+                    Privacy by design
+                </span>
+
+                <span>
+                    Romania / EU
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI NETWORK VISUAL -->
+
+        <div class="ai-visual">
+
+            <div class="visual-grid"></div>
+
+            <div class="orbit one"></div>
+            <div class="orbit two"></div>
+            <div class="orbit three"></div>
+
+            <div class="core-glow"></div>
+
+            <div class="core">
+
+                <div class="core-inner">
+
+                    <div class="core-symbol"></div>
+
+                    <div class="core-title">
+                        LOCAL AI
+                    </div>
+
+                    <div class="core-subtitle">
+                        PRIVATE ENGINE
+                    </div>
+
                 </div>
 
             </div>
 
-            <a class="privacy-link" href="privacy-policy/">
-                Read the AI Memory Search Privacy Policy →
-            </a>
+
+            <div class="node documents">
+
+                <strong>DOCUMENTS</strong>
+
+                <small>
+                    SEMANTIC INPUT
+                </small>
+
+            </div>
+
+
+            <div class="node images">
+
+                <strong>IMAGES</strong>
+
+                <small>
+                    VISUAL INDEX
+                </small>
+
+            </div>
+
+
+            <div class="node email">
+
+                <strong>EMAIL</strong>
+
+                <small>
+                    AUTHORIZED DATA
+                </small>
+
+            </div>
+
+
+            <div class="node index">
+
+                <strong>PRIVATE INDEX</strong>
+
+                <small>
+                    ON DEVICE
+                </small>
+
+            </div>
 
         </div>
 
-        <div class="card" id="contact">
+    </section>
 
-            <h2>Contact</h2>
 
-            <p>
-                For questions about MarSoft applications, AI Memory Search,
-                privacy or support:
+    <div class="section-divider"></div>
+
+
+    <!-- =====================================================
+         TECHNOLOGY
+    ====================================================== -->
+
+    <section class="section"
+             id="technology">
+
+        <div class="reveal">
+
+            <div class="section-number">
+                01 / TECHNOLOGY
+            </div>
+
+            <h2 class="section-heading">
+                AI that works where
+                your data lives.
+            </h2>
+
+            <p class="section-intro">
+                We design software around a simple principle:
+                intelligent technology should provide useful results
+                without unnecessarily moving private information
+                away from the user's device.
             </p>
 
-            <p>
-                <strong>Email:</strong> stupu.marius@gmail.com
+        </div>
+
+
+        <div class="technology-grid reveal">
+
+            <div class="tech-item">
+
+                <div class="tech-line"></div>
+
+                <div class="tech-index">
+                    01.01
+                </div>
+
+                <h3>
+                    Local intelligence
+                </h3>
+
+                <p>
+                    AI models can operate directly on the device,
+                    keeping core processing close to the user's data.
+                </p>
+
+            </div>
+
+
+            <div class="tech-item">
+
+                <div class="tech-line"></div>
+
+                <div class="tech-index">
+                    01.02
+                </div>
+
+                <h3>
+                    Semantic understanding
+                </h3>
+
+                <p>
+                    Search based on meaning rather than relying
+                    exclusively on filenames or exact keywords.
+                </p>
+
+            </div>
+
+
+            <div class="tech-item">
+
+                <div class="tech-line"></div>
+
+                <div class="tech-index">
+                    01.03
+                </div>
+
+                <h3>
+                    Private indexing
+                </h3>
+
+                <p>
+                    Search indexes are designed to remain under
+                    the user's control on their own device.
+                </p>
+
+            </div>
+
+
+            <div class="tech-item">
+
+                <div class="tech-line"></div>
+
+                <div class="tech-index">
+                    01.04
+                </div>
+
+                <h3>
+                    Useful by design
+                </h3>
+
+                <p>
+                    AI is integrated where it solves a real problem,
+                    not simply added as a marketing feature.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="section-divider"></div>
+
+
+    <!-- =====================================================
+         PRODUCT
+    ====================================================== -->
+
+    <section class="section"
+             id="products">
+
+        <div class="reveal">
+
+            <div class="section-number">
+                02 / PRODUCTS
+            </div>
+
+            <h2 class="section-heading">
+                Software built around
+                real information.
+            </h2>
+
+            <p class="section-intro">
+                Our applications explore how local artificial
+                intelligence can make personal information easier
+                to find and use while respecting user privacy.
             </p>
+
+        </div>
+
+
+        <div class="product-panel reveal">
+
+            <div class="product-copy">
+
+                <div class="product-label">
+                    MarSoft / Android
+                </div>
+
+                <h3>
+                    AI Memory
+                    Search
+                </h3>
+
+                <p>
+                    AI Memory Search brings documents, images,
+                    email messages and supported attachments into
+                    one intelligent search experience.
+                </p>
+
+                <p>
+                    Semantic indexing helps users find information
+                    by meaning, while core AI processing and the
+                    private search index operate locally on the
+                    Android device.
+                </p>
+
+                <div class="product-tags">
+
+                    <div class="product-tag">
+                        Semantic Search
+                    </div>
+
+                    <div class="product-tag">
+                        Documents
+                    </div>
+
+                    <div class="product-tag">
+                        Images
+                    </div>
+
+                    <div class="product-tag">
+                        Email
+                    </div>
+
+                    <div class="product-tag">
+                        Local AI
+                    </div>
+
+                    <div class="product-tag">
+                        Private Index
+                    </div>
+
+                </div>
+
+                <a href="privacy-policy/"
+                   class="privacy-link"
+                   style="
+                       display:inline-block;
+                       margin-top:32px;
+                       color:var(--cyan);
+                       text-decoration:none;
+                       font-size:13px;
+                   ">
+                    Privacy Policy →
+                </a>
+
+            </div>
+
+
+            <div class="product-visual">
+
+                <div class="floating-badge badge-one">
+                    LOCAL AI ENGINE
+                </div>
+
+                <div class="floating-badge badge-two">
+                    SEMANTIC INDEX
+                </div>
+
+                <div class="floating-badge badge-three">
+                    PRIVATE BY DESIGN
+                </div>
+
+
+                <div class="phone">
+
+                    <div class="phone-screen">
+
+                        <div class="phone-top">
+
+                            <span>
+                                AI MEMORY SEARCH
+                            </span>
+
+                            <span>
+                                ●
+                            </span>
+
+                        </div>
+
+
+                        <div class="phone-app">
+
+                            <div class="phone-app-name">
+                                Find anything.
+                            </div>
+
+                            <div class="phone-app-sub">
+                                Search your private information
+                            </div>
+
+
+                            <div class="search-box">
+
+                                <div class="search-icon"></div>
+
+                                Search documents, images, email...
+
+                            </div>
+
+
+                            <div class="phone-status">
+
+                                <span class="status-dot"></span>
+
+                                LOCAL AI READY
+
+                            </div>
+
+
+                            <div class="result-card">
+
+                                <div class="result-type">
+                                    DOCUMENT
+                                </div>
+
+                                <div class="result-title">
+                                    Project documentation
+                                </div>
+
+                                <div class="result-line"></div>
+
+                                <div class="result-line short"></div>
+
+                            </div>
+
+
+                            <div class="result-card">
+
+                                <div class="result-type">
+                                    IMAGE
+                                </div>
+
+                                <div class="result-title">
+                                    Indexed image result
+                                </div>
+
+                                <div class="result-line"></div>
+
+                                <div class="result-line short"></div>
+
+                            </div>
+
+
+                            <div class="result-card">
+
+                                <div class="result-type">
+                                    EMAIL
+                                </div>
+
+                                <div class="result-title">
+                                    Relevant message
+                                </div>
+
+                                <div class="result-line"></div>
+
+                                <div class="result-line short"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="section-divider"></div>
+
+
+    <!-- =====================================================
+         PRIVACY ARCHITECTURE
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="reveal">
+
+            <div class="section-number">
+                03 / ARCHITECTURE
+            </div>
+
+            <h2 class="section-heading">
+                Privacy isn't an option.
+                It's architecture.
+            </h2>
+
+            <p class="section-intro">
+                AI Memory Search is designed around local processing
+                and a private search index rather than a
+                developer-operated cloud search database.
+            </p>
+
+        </div>
+
+
+        <div class="architecture reveal">
+
+            <div class="architecture-box">
+
+                <small>
+                    INPUT / 01
+                </small>
+
+                <strong>
+                    Your information
+                </strong>
+
+                <p>
+                    Documents, images and authorized information
+                    selected by the user.
+                </p>
+
+            </div>
+
+
+            <div class="architecture-arrow"></div>
+
+
+            <div class="architecture-box">
+
+                <small>
+                    PROCESS / 02
+                </small>
+
+                <strong>
+                    Local AI
+                </strong>
+
+                <p>
+                    Supported AI processing and semantic indexing
+                    take place on the Android device.
+                </p>
+
+            </div>
+
+
+            <div class="architecture-arrow"></div>
+
+
+            <div class="architecture-box">
+
+                <small>
+                    RESULT / 03
+                </small>
+
+                <strong>
+                    Private search
+                </strong>
+
+                <p>
+                    Search your locally indexed information through
+                    one intelligent interface.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="section-divider"></div>
+
+
+    <!-- =====================================================
+         COMPANY
+    ====================================================== -->
+
+    <section class="section"
+             id="company">
+
+        <div class="company-grid">
+
+            <div class="reveal">
+
+                <div class="section-number">
+                    04 / MARSOFT
+                </div>
+
+                <h2 class="section-heading">
+                    Technology should
+                    earn its place.
+                </h2>
+
+            </div>
+
+
+            <div class="company-copy reveal">
+
+                <p>
+                    MarSoft is an independent software developer
+                    focused on Android applications, intelligent
+                    search and privacy-conscious technology.
+                </p>
+
+                <p>
+                    We build software around practical problems
+                    and explore how artificial intelligence can
+                    become more useful when it operates closer
+                    to the user's own information.
+                </p>
+
+
+                <div class="principles">
+
+                    <div class="principle">
+
+                        <div class="principle-number">
+                            01
+                        </div>
+
+                        <div>
+                            <strong>
+                                Privacy first
+                            </strong>
+
+                            <span>
+                                Architecture begins with the user's data.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="principle">
+
+                        <div class="principle-number">
+                            02
+                        </div>
+
+                        <div>
+                            <strong>
+                                Practical intelligence
+                            </strong>
+
+                            <span>
+                                AI should solve problems, not create complexity.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="principle">
+
+                        <div class="principle-number">
+                            03
+                        </div>
+
+                        <div>
+                            <strong>
+                                Built for Android
+                            </strong>
+
+                            <span>
+                                Native mobile experiences designed for real devices.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
+
+    <section class="section"
+             id="contact">
+
+        <div class="contact-panel reveal">
+
+            <div class="section-number">
+                05 / CONTACT
+            </div>
+
+            <h2>
+                Let's build useful
+                technology.
+            </h2>
+
+            <p>
+                Questions about MarSoft, AI Memory Search,
+                privacy or application support can be sent
+                directly by email.
+            </p>
+
+            <a href="mailto:stupu.marius@gmail.com"
+               class="contact-email">
+                stupu.marius@gmail.com →
+            </a>
 
         </div>
 
@@ -288,9 +2274,129 @@
 
 </main>
 
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer>
-    © 2026 MarSoft. All rights reserved.
+
+    <div>
+        © 2026 MarSoft. All rights reserved.
+    </div>
+
+    <div class="footer-links">
+
+        <a href="privacy-policy/">
+            Privacy Policy
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+        <a href="#">
+            Back to top ↑
+        </a>
+
+    </div>
+
 </footer>
+
+
+<script>
+
+    /* =========================================================
+       GLASS NAVIGATION
+    ========================================================= */
+
+    const header = document.getElementById("header");
+
+    window.addEventListener("scroll", function () {
+
+        if (window.scrollY > 30) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+
+    });
+
+
+    /* =========================================================
+       CURSOR LIGHT
+    ========================================================= */
+
+    const cursorGlow = document.getElementById("cursorGlow");
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 3;
+
+    let glowX = mouseX;
+    let glowY = mouseY;
+
+    document.addEventListener("mousemove", function (event) {
+
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+
+    });
+
+    function animateGlow() {
+
+        glowX += (mouseX - glowX) * 0.07;
+        glowY += (mouseY - glowY) * 0.07;
+
+        cursorGlow.style.left = glowX + "px";
+        cursorGlow.style.top = glowY + "px";
+
+        requestAnimationFrame(animateGlow);
+
+    }
+
+    animateGlow();
+
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================= */
+
+    const revealElements =
+        document.querySelectorAll(".reveal");
+
+    const observer =
+        new IntersectionObserver(
+
+            function (entries) {
+
+                entries.forEach(function (entry) {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("visible");
+
+                        observer.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.12
+            }
+
+        );
+
+
+    revealElements.forEach(function (element) {
+
+        observer.observe(element);
+
+    });
+
+</script>
 
 </body>
 </html>
